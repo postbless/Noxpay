@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --background: #07110f;
+  --panel: #0c1714;
+  --panel-strong: #101f1b;
+  --line: #244039;
+  --text: #effaf6;
+  --muted: #9fb7af;
+  --accent: #48d39a;
+  --accent-strong: #2fba83;
+  --warn: #f2b84b;
+  --danger: #ef6b6b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.rk-connect-button button {
+  border-radius: 6px !important;
+}

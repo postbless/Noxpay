@@ -1,0 +1,34 @@
+{
+  "name": "@noxpay/frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "lint": "next lint",
+    "start": "next start",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@iexec-nox/handle": "^0.1.0-beta.10",
+    "@rainbow-me/rainbowkit": "^2.2.10",
+    "@tanstack/react-query": "^5.90.5",
+    "lucide-react": "^0.546.0",
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "viem": "^2.38.2",
+    "wagmi": "^2.19.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.2.4",
+    "@types/node": "^24.9.1",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.2.4",
+    "typescript": "^5.9.3"
+  }
+}

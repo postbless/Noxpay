@@ -1,0 +1,24 @@
+{
+  "name": "@noxpay/contracts",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "hardhat compile",
+    "compile": "hardhat compile",
+    "deploy:arbitrum-sepolia": "hardhat run scripts/deploy.ts --network arbitrumSepolia",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@iexec-nox/nox-confidential-contracts": "^0.1.0",
+    "@iexec-nox/nox-protocol-contracts": "^0.2.2",
+    "@openzeppelin/contracts": "^5.5.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-viem": "^3.0.5",
+    "dotenv": "^17.2.3",
+    "hardhat": "^3.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
