@@ -2,16 +2,16 @@
 
 :root {
   color-scheme: dark;
-  --background: #07110f;
-  --panel: #0c1714;
-  --panel-strong: #101f1b;
-  --line: #244039;
-  --text: #effaf6;
-  --muted: #9fb7af;
-  --accent: #48d39a;
-  --accent-strong: #2fba83;
-  --warn: #f2b84b;
-  --danger: #ef6b6b;
+  --background: #2e4b30;
+  --panel: #314f34;
+  --panel-strong: #203422;
+  --line: rgba(245, 239, 225, 0.12);
+  --text: #f5efe1;
+  --muted: #d5cebf;
+  --accent: #f5efe1;
+  --accent-strong: #e7dfcf;
+  --warn: #e2c387;
+  --danger: #c98989;
 }
 
 * {
@@ -31,6 +31,88 @@ input {
   font: inherit;
 }
 
+input::placeholder {
+  color: rgba(245, 239, 225, 0.35);
+}
+
 .rk-connect-button button {
   border-radius: 6px !important;
+}
+
+.hero-breathe {
+  animation: hero-breathe 7s ease-in-out infinite;
+}
+
+.hero-hand-left {
+  animation: hero-hand-left 8.2s ease-in-out infinite;
+  transform-origin: 72% 58%;
+}
+
+.hero-hand-right {
+  animation: hero-hand-right 8.2s ease-in-out infinite;
+  transform-origin: 28% 58%;
+}
+
+.hero-symbol-wrap {
+  animation: hero-symbol-wrap 6.8s ease-in-out infinite;
+}
+
+.hero-symbol {
+  animation: hero-symbol 7.8s ease-in-out infinite;
+}
+
+@keyframes hero-breathe {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+@keyframes hero-hand-left {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-2deg);
+  }
+  50% {
+    transform: translate3d(14px, -12px, 0) rotate(1deg);
+  }
+}
+
+@keyframes hero-hand-right {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(2deg);
+  }
+  50% {
+    transform: translate3d(-14px, -10px, 0) rotate(-1deg);
+  }
+}
+
+@keyframes hero-symbol-wrap {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.95;
+  }
+  50% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}
+
+@keyframes hero-symbol {
+  0%,
+  100% {
+    transform: scale(0.98);
+    box-shadow: 0 20px 70px rgba(8, 10, 8, 0.38);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 24px 90px rgba(8, 10, 8, 0.46);
+  }
 }

@@ -13,7 +13,7 @@ import {
   Wallet,
   XCircle
 } from "lucide-react";
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, type ReactNode, useMemo, useState } from "react";
 import { isAddress, type Address, type Hex } from "viem";
 import { useAccount } from "wagmi";
 import { shortAddress } from "@/components/short-address";
@@ -31,13 +31,6 @@ type Escrow = {
   cancelledAt: bigint;
   encryptedAmount: Hex;
 };
-
-const iexecHeroVideo =
-  "https://cdn.prod.website-files.com/6646148828eddb19c172bf2a%2F69b41173f14aa29aa074057f_Module-CToken%20%281%29_mp4.mp4";
-const iexecHeroImage =
-  "https://cdn.prod.website-files.com/6646148828eddb19c172bf2a/69b41cd5021febfede6d0304_Homre%20protected.webp";
-const iexecModuleImage =
-  "https://cdn.prod.website-files.com/6646148828eddb19c172bf2a/69b41b9d9d23aa3d51427001_Module-VAJ-iExec-HD%20(3).webp";
 
 const statusLabels = ["Created", "Funded", "Released", "Cancelled"];
 const demoClient = "0x1111111111111111111111111111111111111111" as Address;
@@ -62,18 +55,23 @@ const capabilityCards = [
 const processSteps = [
   {
     index: "01",
-    title: "Fund privately",
-    copy: "A client creates a job, chooses the contractor wallet, and funds the escrow while the amount stays hidden from the public dashboard."
+    title: "Private payment amounts",
+    copy: "Job title, client, contractor, and status can stay public while the actual payment amount remains hidden."
   },
   {
     index: "02",
-    title: "Track progress publicly",
-    copy: "Job title, counterparties, status, and timestamps stay visible, which gives transparency without leaking rates or budgets."
+    title: "Escrow before delivery",
+    copy: "Contractors can see that a client has reserved payment first, which makes the flow feel closer to a real freelance platform."
   },
   {
     index: "03",
-    title: "Release when work lands",
-    copy: "Once the contractor ships, the client releases the escrow. Authorized parties can then reveal the private amount from the secure flow."
+    title: "Release on approval",
+    copy: "The client keeps control over release, so work still follows a clean escrow lifecycle instead of an instant transfer."
+  },
+  {
+    index: "04",
+    title: "Built on iExec Nox",
+    copy: "Privacy is not decorative here. The product story is explicitly tied to iExec Nox confidential token infrastructure."
   }
 ];
 
@@ -222,34 +220,26 @@ export default function Home() {
   }
 
   return (
-    <main className="bg-[#06110f] text-[#effaf6]">
+    <main className="bg-[#2E4B30] text-[#F5EFE1]">
       <section className="relative min-h-screen overflow-hidden">
-        <video
-          className="absolute inset-0 h-full w-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster={iexecHeroImage}
-        >
-          <source src={iexecHeroVideo} type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-black/55" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(72,211,154,0.18),_transparent_30%)]" />
+        <div className="absolute inset-0 bg-[#2E4B30]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(245,239,225,0.08),_transparent_34%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,18,11,0.06),rgba(10,18,11,0.28))]" />
+        <HeroPrivacyScene />
 
         <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col px-4 pb-8 pt-5 sm:px-6 lg:px-8">
-          <header className="flex items-center justify-between border-b border-white/10 pb-5">
+          <header className="flex items-center justify-between border-b border-[#F5EFE1]/12 pb-5">
             <div className="flex items-center gap-3">
               <NoxPayMark className="size-11" />
               <div>
                 <p className="text-lg font-semibold">NoxPay</p>
-                <p className="text-xs uppercase tracking-[0.18em] text-[#9fb7af]">Private escrow for Web3 work</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-[#D5CEBF]">Private escrow for Web3 work</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <a
                 href="#demo"
-                className="hidden h-10 items-center rounded-md border border-white/15 px-4 text-sm text-white/88 sm:inline-flex"
+                className="hidden h-10 items-center rounded-md border border-[#F5EFE1]/16 px-4 text-sm text-[#F5EFE1] sm:inline-flex"
               >
                 View demo
               </a>
@@ -259,28 +249,28 @@ export default function Home() {
 
           <div className="grid flex-1 items-end gap-8 py-10 lg:grid-cols-[1.15fr_0.85fr] lg:py-16">
             <div className="max-w-3xl">
-              <p className="mb-4 inline-flex items-center gap-2 rounded-md border border-[#48d39a]/40 bg-black/30 px-3 py-2 text-xs uppercase tracking-[0.18em] text-[#b8ead5] backdrop-blur">
+              <p className="mb-4 inline-flex items-center gap-2 rounded-md border border-[#F5EFE1]/16 bg-[#203422]/55 px-3 py-2 text-xs uppercase tracking-[0.18em] text-[#F0E8D7] backdrop-blur">
                 <Sparkles size={14} />
                 Built for iExec Nox confidential tokens
               </p>
               <h1 className="max-w-4xl text-5xl font-semibold leading-[0.95] sm:text-6xl lg:text-7xl">
                 Private escrow payments for high-trust Web3 freelance work.
               </h1>
-              <p className="mt-6 max-w-2xl text-base leading-7 text-[#d1ddd8] sm:text-lg">
+              <p className="mt-6 max-w-2xl text-base leading-7 text-[#E2DCCD] sm:text-lg">
                 NoxPay gives clients a way to reserve payment on-chain while keeping the amount private. The deal stays
                 auditable. The budget stays confidential. The demo stays smooth.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <a
                   href="#demo"
-                  className="inline-flex h-12 items-center gap-2 rounded-md bg-[#48d39a] px-5 text-sm font-semibold text-[#04100d]"
+                  className="inline-flex h-12 items-center gap-2 rounded-md bg-[#F5EFE1] px-5 text-sm font-semibold text-[#243A26] transition duration-300 hover:-translate-y-[1px]"
                 >
                   Open live walkthrough
                   <ArrowRight size={16} />
                 </a>
                 <a
                   href="#story"
-                  className="inline-flex h-12 items-center rounded-md border border-white/15 px-5 text-sm font-semibold text-white/88 backdrop-blur"
+                  className="inline-flex h-12 items-center rounded-md border border-[#F5EFE1]/16 px-5 text-sm font-semibold text-[#F5EFE1] backdrop-blur"
                 >
                   Why it matters
                 </a>
@@ -288,8 +278,8 @@ export default function Home() {
             </div>
 
             <div className="grid gap-4 self-end">
-              <div className="rounded-lg border border-white/12 bg-black/35 p-4 backdrop-blur">
-                <p className="text-xs uppercase tracking-[0.18em] text-[#9fb7af]">Product frame</p>
+              <div className="rounded-lg border border-[#F5EFE1]/14 bg-[#223724]/70 p-4 backdrop-blur">
+                <p className="text-xs uppercase tracking-[0.18em] text-[#D5CEBF]">Product frame</p>
                 <p className="mt-3 text-2xl font-semibold">Upwork-style escrow, but with private amounts on-chain.</p>
               </div>
               <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
@@ -300,7 +290,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid gap-3 border-t border-white/10 pt-5 text-sm text-[#c3d2cd] sm:grid-cols-3">
+          <div className="grid gap-3 border-t border-[#F5EFE1]/10 pt-5 text-sm text-[#E2DCCD] sm:grid-cols-3">
             <InfoRow label="Network" value="Arbitrum Sepolia" />
             <InfoRow label="Mode" value="Demo-first with Nox-ready flow" />
             <InfoRow label="Tech" value="Next.js, wagmi, viem, iExec Nox" />
@@ -308,16 +298,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="story" className="border-t border-white/6 bg-[#081411] px-4 py-20 sm:px-6 lg:px-8">
+      <section id="story" className="border-t border-[#F5EFE1]/8 bg-[#314F34] px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
             <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-[#7cbda1]">Why NoxPay</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-[#E7DFCF]">Why NoxPay</p>
               <h2 className="mt-4 text-4xl font-semibold leading-tight sm:text-5xl">
                 Public work coordination. Private commercial terms.
               </h2>
             </div>
-            <p className="max-w-2xl text-base leading-7 text-[#a8beb5]">
+            <p className="max-w-2xl text-base leading-7 text-[#E2DCCD]">
               Clients want escrow because it gives contractors confidence. Contractors want privacy because rates and deal
               size should not become permanent public metadata. NoxPay sits in the middle and makes that tradeoff feel
               obvious.
@@ -326,46 +316,49 @@ export default function Home() {
 
           <div className="mt-12 grid gap-4 lg:grid-cols-3">
             {capabilityCards.map((card) => (
-              <article key={card.title} className="rounded-lg border border-white/8 bg-[#0b1815] p-6">
+              <article key={card.title} className="rounded-lg border border-[#F5EFE1]/10 bg-[#2A432C] p-6">
                 <h3 className="text-xl font-semibold">{card.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-[#9fb7af]">{card.body}</p>
+                <p className="mt-3 text-sm leading-7 text-[#E2DCCD]">{card.body}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-[#06110f] px-4 py-20 sm:px-6 lg:px-8">
+      <section className="bg-[#F5EFE1] px-4 py-20 text-[#2E4B30] sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div className="overflow-hidden rounded-lg border border-white/8">
-            <img src={iexecModuleImage} alt="iExec Nox technology visual" className="h-full w-full object-cover" />
-          </div>
-          <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-[#7cbda1]">Product flow</p>
-            <h2 className="mt-4 text-4xl font-semibold sm:text-5xl">Built to tell the right story in one glance.</h2>
-            <div className="mt-8 space-y-5">
+          <div className="rounded-lg border border-[#2E4B30]/14 bg-[#EEE6D6] p-6">
+            <div className="grid gap-5">
               {processSteps.map((step) => (
-                <div key={step.index} className="grid gap-3 border-t border-white/8 pt-5 sm:grid-cols-[70px_1fr]">
-                  <p className="text-sm text-[#7cbda1]">{step.index}</p>
+                <div key={step.index} className="grid gap-3 border-t border-[#2E4B30]/12 pt-5 first:border-t-0 first:pt-0 sm:grid-cols-[88px_1fr]">
+                  <p className="text-3xl font-semibold tracking-[0.12em] text-[#2E4B30]/75">{step.index}</p>
                   <div>
-                    <h3 className="text-xl font-semibold">{step.title}</h3>
-                    <p className="mt-2 text-sm leading-7 text-[#9fb7af]">{step.copy}</p>
+                    <h3 className="text-2xl font-semibold">{step.title}</h3>
+                    <p className="mt-2 text-sm leading-7 text-[#49674A]">{step.copy}</p>
                   </div>
                 </div>
               ))}
             </div>
           </div>
+          <div>
+            <p className="text-xs uppercase tracking-[0.18em] text-[#49674A]">Advantages</p>
+            <h2 className="mt-4 text-4xl font-semibold sm:text-5xl">The four things a judge should understand instantly.</h2>
+            <p className="mt-6 max-w-xl text-base leading-8 text-[#49674A]">
+              This block borrows the calm, numbered rhythm from the reference and turns it into a very direct product case:
+              confidentiality, escrow confidence, controlled release, and a visible iExec tie-in.
+            </p>
+          </div>
         </div>
       </section>
 
-      <section id="demo" className="bg-[#070707] px-4 py-20 sm:px-6 lg:px-8">
+      <section id="demo" className="bg-[#101310] px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-[#7cbda1]">Interactive demo</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-[#CFC7B7]">Interactive demo</p>
               <h2 className="mt-4 text-4xl font-semibold sm:text-5xl">A polished walkthrough judges can use themselves.</h2>
             </div>
-            <div className="max-w-xl text-sm leading-7 text-[#9fb7af]">
+            <div className="max-w-xl text-sm leading-7 text-[#BDB5A8]">
               This section keeps the core happy-path live: mint demo funds, create a private escrow, release it, and reveal
               the amount only when the user explicitly asks to decrypt it.
             </div>
@@ -376,13 +369,13 @@ export default function Home() {
 
           <div className="mt-6 grid gap-5 lg:grid-cols-[400px_1fr]">
             <aside className="flex flex-col gap-5">
-              <div className="rounded-lg border border-white/8 bg-[#0b1815] p-5">
+              <div className="rounded-lg border border-[#F5EFE1]/8 bg-[#161A16] p-5">
                 <div className="mb-4 flex items-center justify-between">
                   <div>
                     <h3 className="text-xl font-semibold">Create private escrow</h3>
-                    <p className="mt-1 text-sm text-[#9fb7af]">The amount is hidden in the public dashboard.</p>
+                    <p className="mt-1 text-sm text-[#BDB5A8]">The amount is hidden in the public dashboard.</p>
                   </div>
-                  <ShieldCheck size={20} className="text-[#48d39a]" />
+                  <ShieldCheck size={20} className="text-[#F5EFE1]" />
                 </div>
                 <form className="flex flex-col gap-3" onSubmit={submitEscrow}>
                   <Field label="Job title" value={jobTitle} onChange={setJobTitle} placeholder="Smart contract audit" />
@@ -392,7 +385,7 @@ export default function Home() {
                   <button
                     type="submit"
                     disabled={Boolean(busy)}
-                    className="mt-2 inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#48d39a] px-4 font-semibold text-[#05110d] disabled:opacity-50"
+                    className="mt-2 inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#F5EFE1] px-4 font-semibold text-[#243A26] transition duration-300 hover:-translate-y-[1px] disabled:opacity-50"
                   >
                     <Send size={16} />
                     Create and fund
@@ -400,15 +393,15 @@ export default function Home() {
                 </form>
               </div>
 
-              <div className="rounded-lg border border-white/8 bg-[#0b1815] p-5">
+              <div className="rounded-lg border border-[#F5EFE1]/8 bg-[#161A16] p-5">
                 <div className="mb-4 flex items-center justify-between">
                   <div>
                     <h3 className="text-xl font-semibold">Demo wallet</h3>
-                    <p className="mt-1 text-sm text-[#9fb7af]">A local stand-in for confidential token balance.</p>
+                    <p className="mt-1 text-sm text-[#BDB5A8]">A local stand-in for confidential token balance.</p>
                   </div>
-                  <Wallet size={20} className="text-[#48d39a]" />
+                  <Wallet size={20} className="text-[#F5EFE1]" />
                 </div>
-                <div className="space-y-2 text-sm text-[#9fb7af]">
+                <div className="space-y-2 text-sm text-[#BDB5A8]">
                   <p>Mode: Demo-first landing</p>
                   <p>Token: cNOXUSD</p>
                   <p>Balance: {decrypted.balance ? `${decrypted.balance} cNOXUSD` : "Encrypted"}</p>
@@ -419,7 +412,7 @@ export default function Home() {
                     type="button"
                     disabled={Boolean(busy)}
                     onClick={mintDemoTokens}
-                    className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-[#48d39a]/50 text-sm font-semibold text-[#48d39a] disabled:opacity-50"
+                    className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-[#F5EFE1]/24 text-sm font-semibold text-[#F5EFE1] transition duration-300 hover:bg-[#F5EFE1]/6 disabled:opacity-50"
                   >
                     <CheckCircle2 size={16} />
                     Mint demo
@@ -428,7 +421,7 @@ export default function Home() {
                     type="button"
                     disabled={Boolean(busy) || isDecryptingBalance}
                     onClick={revealBalance}
-                    className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-white/10 text-sm font-semibold text-[#effaf6] disabled:opacity-50"
+                    className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-[#F5EFE1]/10 text-sm font-semibold text-[#F5EFE1] transition duration-300 hover:bg-white/[0.03] disabled:opacity-50"
                   >
                     {isDecryptingBalance ? <RefreshCw size={16} className="animate-spin" /> : <Eye size={16} />}
                     {isDecryptingBalance ? "Decrypting..." : "View balance"}
@@ -437,19 +430,19 @@ export default function Home() {
               </div>
             </aside>
 
-            <section className="overflow-hidden rounded-lg border border-white/10 bg-[#0d0d0d] shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
-              <div className="flex flex-col gap-3 border-b border-white/8 p-5 sm:flex-row sm:items-end sm:justify-between">
+            <section className="overflow-hidden rounded-lg border border-[#F5EFE1]/10 bg-[#0D0F0D] shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
+              <div className="flex flex-col gap-3 border-b border-[#F5EFE1]/8 p-5 sm:flex-row sm:items-end sm:justify-between">
                 <div>
                   <h3 className="text-xl font-semibold">Escrow board</h3>
-                  <p className="mt-1 text-sm text-[#8f8f8f]">
+                  <p className="mt-1 text-sm text-[#B4AC9F]">
                     Public: job, parties, status. Private: amount until explicit reveal.
                   </p>
                 </div>
-                <div className="rounded-md border border-white/10 bg-[#141414] px-3 py-2 text-xs uppercase tracking-[0.18em] text-[#d6d6d6]">
+                <div className="rounded-md border border-[#F5EFE1]/10 bg-[#171917] px-3 py-2 text-xs uppercase tracking-[0.18em] text-[#E8E0D1]">
                   Demo Mode Active
                 </div>
               </div>
-              <div className="divide-y divide-white/8">
+              <div className="divide-y divide-[#F5EFE1]/8">
                 {escrows.map((escrow) => (
                   <EscrowRow
                     key={String(escrow.id)}
@@ -469,7 +462,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="border-t border-white/6 bg-[#06110f] px-4 py-20 sm:px-6 lg:px-8">
+      <section className="border-t border-[#F5EFE1]/8 bg-[#2E4B30] px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-3">
           <JudgeCard
             title="4-minute fit"
@@ -492,14 +485,14 @@ export default function Home() {
 function NoxPayMark({ className = "" }: { className?: string }) {
   return (
     <div
-      className={`grid place-items-center rounded-[10px] border border-[#48d39a]/55 bg-[linear-gradient(180deg,rgba(6,17,15,0.82),rgba(8,31,24,0.96))] shadow-[0_0_30px_rgba(72,211,154,0.12)] ${className}`}
+      className={`grid place-items-center rounded-[10px] border border-[#F5EFE1]/20 bg-[linear-gradient(180deg,rgba(46,75,48,0.92),rgba(27,43,29,0.98))] shadow-[0_0_30px_rgba(245,239,225,0.08)] ${className}`}
     >
       <svg viewBox="0 0 64 64" className="h-[74%] w-[74%]" aria-hidden="true">
         <defs>
           <linearGradient id="noxpayMark" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#90ffd0" />
-            <stop offset="55%" stopColor="#48d39a" />
-            <stop offset="100%" stopColor="#0d6f51" />
+            <stop offset="0%" stopColor="#F5EFE1" />
+            <stop offset="55%" stopColor="#D7D0C1" />
+            <stop offset="100%" stopColor="#98A18E" />
           </linearGradient>
         </defs>
         <path
@@ -514,7 +507,7 @@ function NoxPayMark({ className = "" }: { className?: string }) {
           fill="url(#noxpayMark)"
           opacity="0.95"
         />
-        <circle cx="24" cy="32" r="4.3" fill="#04110d" />
+        <circle cx="24" cy="32" r="4.3" fill="#243A26" />
       </svg>
     </div>
   );
@@ -522,9 +515,9 @@ function NoxPayMark({ className = "" }: { className?: string }) {
 
 function StatCard({ value, label }: { value: string; label: string }) {
   return (
-    <div className="rounded-lg border border-white/10 bg-black/28 p-4 backdrop-blur">
+    <div className="rounded-lg border border-[#F5EFE1]/12 bg-[#223724]/62 p-4 backdrop-blur">
       <p className="text-2xl font-semibold">{value}</p>
-      <p className="mt-1 text-sm text-[#a8beb5]">{label}</p>
+      <p className="mt-1 text-sm text-[#E2DCCD]">{label}</p>
     </div>
   );
 }
@@ -532,8 +525,8 @@ function StatCard({ value, label }: { value: string; label: string }) {
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-xs uppercase tracking-[0.16em] text-[#7cbda1]">{label}</p>
-      <p className="mt-1 text-sm text-[#d3ddd8]">{value}</p>
+      <p className="text-xs uppercase tracking-[0.16em] text-[#D8D1C2]">{label}</p>
+      <p className="mt-1 text-sm text-[#F5EFE1]">{value}</p>
     </div>
   );
 }
@@ -541,10 +534,10 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 function Banner({ tone, text }: { tone: "ok" | "error" | "busy"; text: string }) {
   const styles =
     tone === "ok"
-      ? "border-[#48d39a]/40 bg-[#0e221b] text-[#c8f8e2]"
+      ? "border-[#F5EFE1]/22 bg-[#203423] text-[#F5EFE1]"
       : tone === "busy"
-        ? "border-[#f2b84b]/30 bg-[#211a0b] text-[#ffe1a4]"
-        : "border-[#ef6b6b]/30 bg-[#251113] text-[#ffd1d1]";
+        ? "border-[#E2C387]/28 bg-[#3B3424] text-[#F3E1B7]"
+        : "border-[#C98989]/28 bg-[#3A2324] text-[#F0D3D3]";
   const Icon = tone === "ok" ? CheckCircle2 : tone === "busy" ? RefreshCw : XCircle;
   return (
     <div className={`mb-4 flex items-center gap-3 rounded-md border px-4 py-3 text-sm ${styles}`}>
@@ -569,14 +562,14 @@ function Field({
 }) {
   return (
     <label className="flex flex-col gap-1 text-sm">
-      <span className="text-[#9fb7af]">{label}</span>
+      <span className="text-[#BDB5A8]">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
         type={type}
         step={type === "number" ? "0.000001" : undefined}
-        className="h-11 rounded-md border border-white/10 bg-[#07110f] px-3 text-[#effaf6] outline-none transition focus:border-[#48d39a]"
+        className="h-11 rounded-md border border-[#F5EFE1]/10 bg-[#101310] px-3 text-[#F5EFE1] outline-none transition focus:border-[#F5EFE1]/34"
       />
     </label>
   );
@@ -606,25 +599,25 @@ function EscrowRow({
   const status = statusLabels[escrow.status] ?? "Unknown";
 
   return (
-    <article className="grid gap-4 bg-[linear-gradient(180deg,rgba(13,13,13,0.98),rgba(9,9,9,0.98))] p-5 transition duration-300 hover:bg-[linear-gradient(180deg,rgba(18,18,18,0.98),rgba(12,12,12,0.98))] hover:shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)] xl:grid-cols-[1.3fr_0.9fr_auto] xl:items-center">
+    <article className="grid gap-4 bg-[linear-gradient(180deg,rgba(13,15,13,0.98),rgba(10,12,10,0.98))] p-5 transition duration-300 hover:bg-[linear-gradient(180deg,rgba(21,24,21,0.98),rgba(12,15,12,0.98))] hover:shadow-[inset_0_0_0_1px_rgba(245,239,225,0.04)] xl:grid-cols-[1.3fr_0.9fr_auto] xl:items-center">
       <div className="min-w-0">
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <h4 className="truncate text-lg font-semibold">{escrow.jobTitle}</h4>
-          <span className="inline-flex items-center gap-2 rounded-md border border-white/10 bg-[#151515] px-2 py-1 text-xs text-[#d2d2d2]">
-            <span className="inline-block size-1.5 rounded-full bg-white/70 animate-pulse" />
+          <span className="inline-flex items-center gap-2 rounded-md border border-[#F5EFE1]/10 bg-[#171917] px-2 py-1 text-xs text-[#E8E0D1]">
+            <span className="inline-block size-1.5 rounded-full bg-[#F5EFE1]/75 animate-pulse" />
             {status}
           </span>
-          <span className="inline-flex items-center gap-1 rounded-md border border-white/8 bg-[#111111] px-2 py-1 text-xs text-[#f2f2f2] transition duration-300 hover:border-white/20 hover:bg-[#161616]">
+          <span className="inline-flex items-center gap-1 rounded-md border border-[#F5EFE1]/8 bg-[#121412] px-2 py-1 text-xs text-[#F5EFE1] transition duration-300 hover:border-[#F5EFE1]/20 hover:bg-[#171917]">
             <LockKeyhole size={12} />
             {revealed ? `${revealed} cNOXUSD` : "Private amount"}
           </span>
         </div>
-        <div className="grid gap-1 text-sm text-[#8f8f8f] sm:grid-cols-2">
+        <div className="grid gap-1 text-sm text-[#B4AC9F] sm:grid-cols-2">
           <p>Client: {shortAddress(escrow.client)}</p>
           <p>Contractor: {shortAddress(escrow.contractor)}</p>
         </div>
       </div>
-      <div className="text-sm text-[#8f8f8f]">
+      <div className="text-sm text-[#B4AC9F]">
         <p>Created: {new Date(Number(escrow.createdAt) * 1000).toLocaleString()}</p>
         <p>Escrow ID: #{String(escrow.id)}</p>
       </div>
@@ -656,7 +649,7 @@ function ActionButton({
   tone = "default"
 }: {
   label: string;
-  icon: React.ReactNode;
+  icon: ReactNode;
   onClick: () => void;
   disabled: boolean;
   tone?: "default" | "danger";
@@ -668,8 +661,8 @@ function ActionButton({
       onClick={onClick}
       className={`inline-flex h-9 min-w-24 items-center justify-center gap-2 rounded-md border px-3 text-sm font-semibold transition duration-300 hover:-translate-y-[1px] disabled:opacity-50 disabled:hover:translate-y-0 ${
         tone === "danger"
-          ? "border-white/10 bg-[#151515] text-[#f0f0f0] hover:border-white/20 hover:bg-[#1a1a1a]"
-          : "border-white/10 bg-[#111111] text-[#f5f5f5] hover:border-white/20 hover:bg-[#171717]"
+          ? "border-[#F5EFE1]/10 bg-[#171917] text-[#F5EFE1] hover:border-[#F5EFE1]/20 hover:bg-[#1D201D]"
+          : "border-[#F5EFE1]/10 bg-[#121412] text-[#F5EFE1] hover:border-[#F5EFE1]/20 hover:bg-[#171917]"
       }`}
     >
       {icon}
@@ -680,9 +673,107 @@ function ActionButton({
 
 function JudgeCard({ title, body }: { title: string; body: string }) {
   return (
-    <article className="rounded-lg border border-white/8 bg-[#0b1815] p-6">
+    <article className="rounded-lg border border-[#F5EFE1]/10 bg-[#2A432C] p-6">
       <h3 className="text-xl font-semibold">{title}</h3>
-      <p className="mt-3 text-sm leading-7 text-[#9fb7af]">{body}</p>
+      <p className="mt-3 text-sm leading-7 text-[#E2DCCD]">{body}</p>
     </article>
+  );
+}
+
+function HeroPrivacyScene() {
+  return (
+    <div className="pointer-events-none absolute inset-x-0 bottom-0 top-24 flex items-end justify-center overflow-hidden">
+      <div className="relative h-[74vh] w-full max-w-7xl">
+        <div className="hero-breathe absolute left-[8%] top-[18%] h-72 w-72 rounded-full bg-[#F5EFE1]/5 blur-3xl" />
+        <div className="hero-breathe absolute right-[9%] top-[16%] h-72 w-72 rounded-full bg-[#F5EFE1]/4 blur-3xl [animation-delay:1.6s]" />
+        <div className="absolute inset-x-[18%] bottom-[12%] h-px bg-gradient-to-r from-transparent via-[#F5EFE1]/18 to-transparent" />
+
+        <div className="hero-hand-left absolute bottom-[-3%] left-[-10%] w-[52%] min-w-[420px] opacity-95">
+          <HeroHand side="left" />
+        </div>
+        <div className="hero-hand-right absolute bottom-[-3%] right-[-10%] w-[52%] min-w-[420px] opacity-95">
+          <HeroHand side="right" />
+        </div>
+
+        <div className="absolute left-1/2 top-[44%] flex -translate-x-1/2 -translate-y-1/2 flex-col items-center">
+          <div className="hero-symbol-wrap relative">
+            <div className="absolute inset-[-26px] rounded-full bg-[#F5EFE1]/7 blur-2xl" />
+            <div className="hero-symbol relative flex h-28 w-24 items-center justify-center rounded-[28px] border border-[#F5EFE1]/20 bg-[linear-gradient(180deg,rgba(245,239,225,0.12),rgba(17,23,18,0.78))] shadow-[0_20px_70px_rgba(8,10,8,0.38)]">
+              <div className="absolute inset-2 rounded-[22px] border border-[#F5EFE1]/14" />
+              <div className="absolute left-1/2 top-1/2 h-14 w-14 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#F5EFE1]/14" />
+              <LockKeyhole size={34} className="relative z-10 text-[#F5EFE1]" strokeWidth={1.7} />
+            </div>
+          </div>
+          <div className="mt-4 rounded-full border border-[#F5EFE1]/12 bg-[#223724]/62 px-4 py-2 text-[11px] uppercase tracking-[0.24em] text-[#F5EFE1]">
+            Protected negotiation
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroHand({ side }: { side: "left" | "right" }) {
+  const isLeft = side === "left";
+
+  return (
+    <svg
+      viewBox="0 0 760 520"
+      className={`h-auto w-full ${isLeft ? "" : "-scale-x-100"}`}
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id={`handBase-${side}`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#F5EFE1" stopOpacity="0.94" />
+          <stop offset="38%" stopColor="#E5DECF" stopOpacity="0.88" />
+          <stop offset="100%" stopColor="#A59F92" stopOpacity="0.82" />
+        </linearGradient>
+        <linearGradient id={`handShadow-${side}`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#19281A" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#0E160F" stopOpacity="0.98" />
+        </linearGradient>
+        <radialGradient id={`handGlow-${side}`} cx="50%" cy="30%" r="72%">
+          <stop offset="0%" stopColor="#F5EFE1" stopOpacity="0.34" />
+          <stop offset="100%" stopColor="#F5EFE1" stopOpacity="0" />
+        </radialGradient>
+      </defs>
+
+      <ellipse cx="330" cy="280" rx="280" ry="160" fill={`url(#handGlow-${side})`} />
+
+      <g>
+        <path
+          d="M34 412c66-16 124-10 180 18 46 23 82 58 128 64 78 11 123-36 170-90l84-98c18-22 45-35 69-28 20 6 35 24 36 44 1 20-10 38-24 52l-104 102c-45 44-89 83-147 97-58 15-128 5-180-25-40-23-74-56-121-69-35-10-73-8-111-7z"
+          fill={`url(#handShadow-${side})`}
+        />
+        <path
+          d="M42 398c61-14 118-8 172 19 43 22 77 55 122 61 75 10 116-35 161-87l83-95c17-20 41-31 64-25 18 5 31 21 32 38 1 19-10 34-22 46l-103 101c-44 43-86 79-142 93-55 14-123 6-172-22-40-22-74-54-120-68-34-10-72-10-112-11z"
+          fill={`url(#handBase-${side})`}
+        />
+      </g>
+
+      <g fill={`url(#handBase-${side})`} stroke="#F5EFE1" strokeOpacity="0.1" strokeWidth="1.6">
+        <path d="M478 271c18-55 39-108 58-161 7-18 24-30 42-28 18 2 32 17 33 35 0 6-1 11-3 16l-61 163c-5 13-20 20-33 15-12-5-19-18-15-31 0-3 1-6 2-9z" />
+        <path d="M536 293c27-53 56-105 84-156 9-17 28-26 46-22 17 5 29 22 28 40-1 7-2 13-6 19l-86 154c-7 13-23 18-36 11-13-7-18-23-11-36 0-4 1-7 3-10z" />
+        <path d="M582 338c34-43 69-85 105-126 12-14 32-18 48-10 16 9 24 28 19 45-2 6-5 12-10 17L639 387c-9 11-26 13-37 4-11-9-13-25-4-36 1-7 3-12 7-17z" />
+        <path d="M430 272c5-27 9-53 17-79 8-29 15-58 25-86 7-18 26-28 44-24 18 4 31 21 29 39 0 5-1 10-3 15l-39 154c-4 14-18 24-33 22-15-2-26-15-27-30 0-3 0-7 1-11z" />
+      </g>
+
+      <path
+        d="M311 310c26-13 45-2 68 12 20 12 41 26 68 30 27 4 53-6 79-17"
+        fill="none"
+        stroke="#FFFFFF"
+        strokeOpacity="0.18"
+        strokeWidth="6"
+        strokeLinecap="round"
+      />
+      <path
+        d="M177 390c54 9 99 34 143 57"
+        fill="none"
+        stroke="#FFFFFF"
+        strokeOpacity="0.12"
+        strokeWidth="4"
+        strokeLinecap="round"
+      />
+    </svg>
   );
 }
